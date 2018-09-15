@@ -1,0 +1,31 @@
+{
+  "name": "marciaga-coding-exercise",
+  "version": "1.0.0",
+  "bin": {
+    "three-count": "./bin/index.js"
+  },
+  "main": "bin/index.js",
+  "repository": "git@github.com:samg/marciaga-coding-exercise.git",
+  "author": "Mark Arciaga <mark.arciaga@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "babel src -w -d bin",
+    "build": "babel src -d bin",
+    "flow": "flow",
+    "lint": "eslint src",
+    "test": "ava test"
+  },
+  "dependencies": {
+    "ava": "^0.25.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.1",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "flow-bin": "^0.81.0"
+  }
+}
