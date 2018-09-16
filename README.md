@@ -2,6 +2,8 @@
 Stackery coding exercise
 
 
+## CLI arguments must be absolute paths to the files
+
 ## Potential permissions issue with the executable, if for some reason building the application doesn't preserve the file mode, run `$ chmod +x dist/index.js` after running `$ yarn build`.
 
 Write a program that meets the following requirements:
