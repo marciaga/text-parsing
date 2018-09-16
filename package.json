@@ -17,7 +17,9 @@
     "test": "ava test"
   },
   "dependencies": {
-    "ava": "^0.25.0"
+    "@babel/polyfill": "^7.0.0",
+    "ava": "^0.25.0",
+    "event-stream": "^4.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
