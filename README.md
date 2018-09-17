@@ -1,10 +1,40 @@
 # marciaga-coding-exercise
 Stackery coding exercise
 
+## Steps to Run
 
-## CLI arguments must be absolute paths to the files
+### Ensure your current Node version is >=8 (tested on 8.12.0)
 
-## Potential permissions issue with the executable, if for some reason building the application doesn't preserve the file mode, run `$ chmod +x dist/index.js` after running `$ yarn build`.
+### Install dependencies using `yarn`:
+```
+$ yarn
+```
+
+### Build the application:
+```
+$ yarn build
+```
+
+### Run the application -
+#### from stdin:
+```
+$ cat file.txt | yarn start
+```
+
+#### from file(s):
+```
+$ yarn start file1.txt file2.txt
+```
+
+## Run the tests
+```
+$ yarn test
+```
+
+## Run the static typechecker
+```
+$ yarn flow
+```
 
 Write a program that meets the following requirements:
 

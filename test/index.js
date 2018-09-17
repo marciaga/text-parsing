@@ -1,15 +1,28 @@
 import test from 'ava';
+import path from 'path';
+import { validateFilenames, getObjectKVOrBoth } from '../src/utils';
 
-// TODO test with 0 files
-// TODO test with 1 file
-// TODO test with 100 large files
+test('validateFilenames', (t) => {
+  let ary = [path.resolve(__dirname, 'file.txt')];
 
-test('foo', (t) => {
-  t.pass();
+  const result = validateFilenames(ary);
+
+  t.deepEqual(result, []);
+
+  ary = [];
+
+  t.deepEqual(validateFilenames(ary), []);
 });
 
-test('bar', async (t) => {
-  const bar = Promise.resolve('bar');
+test('getObjectKVOrBoth', (t) => {
+  const obj = { 'cats are pretty awesome': 1337 };
+  const a = getObjectKVOrBoth(obj, { type: 'both' });
+  const b = getObjectKVOrBoth(obj, { type: 'key' });
+  const c = getObjectKVOrBoth(obj, { type: 'value' });
+  const d = getObjectKVOrBoth(obj, {});
 
-  t.is(await bar, 'bar');
+  t.deepEqual(a, { key: 'cats are pretty awesome', value: 1337 });
+  t.deepEqual(b, 'cats are pretty awesome');
+  t.deepEqual(c, 1337);
+  t.deepEqual(d, {});
 });
