@@ -2,7 +2,7 @@
 import { Transform } from 'stream';
 
 const splitIntoSeq = (str) => {
-  const result = str.split(' ');
+  const result = str.split(' ').filter(entry => entry.trim() !== '');
   let tmp = [];
 
   return result.reduce((p, c, i) => {

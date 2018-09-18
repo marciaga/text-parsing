@@ -1,12 +1,16 @@
 // @flow
 import { Transform } from 'stream';
-// matches punctuation, newlines
-const re = /[.,\/#!$%\^&\*;:{}=\-_`~()?<>\|\\\[\]+"@]|\n/g; // eslint-disable-line
+// matches most relevant punctuation
+const re = /[.,\/#!$%\^&\*;:{}=\-_`~()?<>\|\\\[\]+"@]/g; // eslint-disable-line
 
 const preprocess = new Transform({
   transform(chunk, encoding, callback) {
-    // ensure no punctuation, newlines are present and that the output is case-insensitive
-    const result = chunk.toString().replace(re, '').toLowerCase();
+    // ensure no punctuation, newlines, or empty spaces are present & the output is case-insensitive
+    const result = chunk.toString()
+      .replace(re, ' ')
+      .replace(/[\n\r]+|[\s]{2,}/g, ' ')
+      .toLowerCase();
+
     this.push(result);
     callback();
   },

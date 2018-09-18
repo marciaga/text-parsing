@@ -1,5 +1,4 @@
 import { Writable } from 'stream';
-import { getObjectKVOrBoth } from './utils';
 
 class SortAndFilter extends Writable <{ sortAry: Array<{}> }> {
   constructor(options) {
@@ -9,7 +8,7 @@ class SortAndFilter extends Writable <{ sortAry: Array<{}> }> {
   }
 
   _write(chunk, encoding, callback) {
-    this.sortAry.push(JSON.parse(chunk));
+    this.sortAry = JSON.parse(chunk);
     callback();
   }
 
@@ -26,15 +25,15 @@ class SortAndFilter extends Writable <{ sortAry: Array<{}> }> {
     this.sortAry = this.sortAry.splice(0, 100);
 
     this.sortAry.forEach((item) => {
-      const { key, value } = getObjectKVOrBoth(item, { type: 'both' });
+      const [key, value] = item;
       console.log(`${value} - ${key}`);
     });
   }
 
   sortAndFilter() {
     const sorter = (a, b) => {
-      const aVal = getObjectKVOrBoth(a, { type: 'value' });
-      const bVal = getObjectKVOrBoth(b, { type: 'value' });
+      const aVal = a[1];
+      const bVal = b[1];
 
       return bVal - aVal;
     };

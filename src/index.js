@@ -3,22 +3,23 @@ import fs from 'fs';
 import es from 'event-stream'; // a node event toolkit library
 import preprocess from './preprocess';
 import parse from './parse';
-import processSequences from './process-sequences';
+import ProcessSequences from './process-sequences';
 import SortAndFilter from './sort-filter';
 import { validateFilenames } from './utils';
 
 const main = () => {
+  // handle stdin
   if (!process.stdin.isTTY) {
     return process.stdin
       .pipe(preprocess) // preprocess
       .pipe(parse) // parse text into three word sequences
-      .pipe(processSequences) // create map of sequence with counts
+      .pipe(new ProcessSequences()) // create map of sequence with counts
       .pipe(new SortAndFilter()); // sort, filter, return results
   }
 
   const [, , ...args] = process.argv;
   const filenames = validateFilenames(args);
-
+  // handle file(s) as input(s)
   try {
     const streams = filenames.map(file => fs.createReadStream(
       file,
@@ -28,7 +29,7 @@ const main = () => {
     es.merge(streams)
       .pipe(preprocess) // preprocess
       .pipe(parse) // parse text into three word sequences
-      .pipe(processSequences) // create map of sequence with counts
+      .pipe(new ProcessSequences()) // create map of sequence with counts
       .pipe(new SortAndFilter()); // sort, filter, return results
   } catch (e) {
     console.log(e); // TODO Log somewhere useful

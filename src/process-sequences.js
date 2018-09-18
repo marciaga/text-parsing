@@ -1,26 +1,31 @@
-// @flow
 import { Transform } from 'stream';
 
-const cache = new Map();
+class ProcessSequences extends Transform {
+  constructor(options) {
+    super(options);
 
-const processSequences = new Transform({
-  transform(chunk, encoding, callback) {
+    this.cache = new Map();
+  }
+
+  _transform(chunk, encoding, callback) {
     let currentCount = 0;
     const sequence = `${chunk.toString()}`;
     // check map to see if sequence exists as a key
-    const hasKey = cache.has(sequence);
+    const hasKey = this.cache.has(sequence);
     // if not add result to Map with value: 1
     if (!hasKey) {
-      cache.set(sequence, 1);
+      this.cache.set(sequence, 1);
     } else {
-      currentCount = cache.get(sequence);
-      cache.set(sequence, currentCount + 1);
+      currentCount = this.cache.get(sequence);
+      this.cache.set(sequence, currentCount + 1);
     }
-
-    const ct = !hasKey ? 1 : currentCount + 1;
-    this.push(JSON.stringify({ [sequence]: ct }));
     callback();
-  },
-});
+  }
 
-export default processSequences;
+  _flush(done) {
+    this.push(JSON.stringify([...this.cache]));
+    done();
+  }
+}
+
+export default ProcessSequences;
