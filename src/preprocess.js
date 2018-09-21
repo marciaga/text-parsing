@@ -6,12 +6,14 @@ const re = /[.,\/#!$%\^&\*;:{}=\-_`~()?<>\|\\\[\]+"@]/g; // eslint-disable-line
 const preprocess = new Transform({
   transform(chunk, encoding, callback) {
     // ensure no punctuation, newlines, or empty spaces are present & the output is case-insensitive
-    const result = chunk.toString()
+    chunk.toString()
       .replace(re, ' ')
       .replace(/[\n\r]+|[\s]{2,}/g, ' ')
-      .toLowerCase();
+      .toLowerCase()
+      .split(' ')
+      .filter(entry => entry.trim() !== '')
+      .map(el => this.push(el));
 
-    this.push(result);
     callback();
   },
 });

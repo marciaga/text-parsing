@@ -1,26 +1,21 @@
 // @flow
 import { Transform } from 'stream';
 
-const splitIntoSeq = (str) => {
-  const result = str.split(' ').filter(entry => entry.trim() !== '');
-  let tmp = [];
-
-  return result.reduce((p, c, i) => {
-    if (i !== 0 && i % 3 === 0) {
-      p.push(tmp.join(' '));
-      tmp = [];
-    }
-    tmp.push(c);
-
-    return p;
-  }, []);
-};
+const cache = [];
+const result = [];
 
 const parse = new Transform({
   transform(chunk, encoding, callback) {
-    splitIntoSeq(chunk.toString())
-      .map(el => this.push(el));
+    const word = chunk.toString();
 
+    cache.push(word);
+
+    if (cache.length === 3) {
+      result.push(cache.slice(0, 3).join(' '));
+      cache.shift();
+    }
+
+    result.map(el => this.push(el));
     callback();
   },
 });
