@@ -1,5 +1,4 @@
-# marciaga-coding-exercise
-Stackery coding exercise
+# Text Parsing Example Application
 
 ## Steps to Run
 
